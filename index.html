@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Chains - English Language Arts Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #hidden-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+        #hidden-button:hover {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="bubbles"></div>
+    <div class="container">
+        <h1>Word Chains</h1>
+        <p>Create a chain of words where each new word starts with the last letter of the previous word!</p>
+        <div id="game-area">
+            <div id="word-chain"></div>
+            <input type="text" id="word-input" placeholder="Enter a word">
+            <button id="submit-word">Submit</button>
+        </div>
+        <div id="score">Score: <span id="score-value">0</span></div>
+        <div id="timer">Time: <span id="time-value">60</span>s</div>
+        <button id="start-game">Start New Game</button>
+    </div>
+    <button id="hidden-button" onclick="window.open('https://itsbrandonplayz.github.io/Dirtbike')">Secret</button>
+    <script src="script.js"></script>
+</body>
+</html>
