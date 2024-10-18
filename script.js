@@ -10,11 +10,13 @@ let timeLeft = 60;
 let timer;
 let gameActive = false;
 let currentChain = [];
+let usedWords = new Set(); // Add this line to keep track of used words
 
 function startGame() {
     score = 0;
     timeLeft = 60;
     currentChain = [];
+    usedWords.clear(); // Clear the set of used words when starting a new game
     gameActive = true;
     wordChain.textContent = '';
     scoreValue.textContent = score;
@@ -45,18 +47,34 @@ function endGame() {
     alert(`Game Over! Your final score is ${score}`);
 }
 
-function isValidWord(word) {
-    // In a real game, you'd want to check against a dictionary API
-    return word.length > 1;
+async function isValidWord(word) {
+    try {
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        return response.ok;
+    } catch (error) {
+        console.error('Error checking word validity:', error);
+        return false;
+    }
 }
 
-function submitWord() {
+async function submitWord() {
     if (!gameActive) return;
 
     const word = wordInput.value.trim().toLowerCase();
     
-    if (!isValidWord(word)) {
-        alert('Please enter a valid word (at least 2 letters)');
+    if (word.length <= 1) {
+        alert('Please enter a word with at least 2 letters');
+        return;
+    }
+
+    if (usedWords.has(word)) {
+        alert('This word has already been used. Please try a different word.');
+        return;
+    }
+
+    const isValid = await isValidWord(word);
+    if (!isValid) {
+        alert('Please enter a valid English word');
         return;
     }
 
@@ -69,6 +87,7 @@ function submitWord() {
     }
 
     currentChain.push(word);
+    usedWords.add(word); // Add the word to the set of used words
     wordChain.textContent = currentChain.join(' → ');
     score += word.length;
     scoreValue.textContent = score;
